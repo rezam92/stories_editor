@@ -1,5 +1,5 @@
 // ignore_for_file: must_be_immutable
-// version 0.4.1
+// version 0.4.3
 library stories_editor;
 
 import 'package:flutter/material.dart';
