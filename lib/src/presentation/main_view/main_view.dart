@@ -133,8 +133,34 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     final ScreenUtil screenUtil = ScreenUtil();
-    return WillPopScope(
-      onWillPop: _popScope,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if(didPop) return;
+        final controlNotifier = Provider.of<ControlNotifier>(context, listen: false);
+
+        /// change to false text editing
+        if (controlNotifier.isTextEditing) {
+          controlNotifier.isTextEditing = !controlNotifier.isTextEditing;
+          return;
+        }
+
+        /// change to false painting
+        else if (controlNotifier.isPainting) {
+          controlNotifier.isPainting = !controlNotifier.isPainting;
+          return;
+        }
+
+        /// show close dialog
+        else if (!controlNotifier.isTextEditing && !controlNotifier.isPainting) {
+          if(widget.onBackPress != null) {
+            if(await widget.onBackPress!) Navigator.of(context).pop();
+          } else if(await exitDialog(context: context, contentKey: contentKey, isRtl: widget.isRtl)){
+            Navigator.of(context).pop();
+          }
+        }
+        return;
+      },
       child: Material(
         color: widget.editorBackgroundColor == Colors.transparent
             ? Colors.black
@@ -472,12 +498,6 @@ class _MainViewState extends State<MainView> {
 
     var objectX = details.position.dx;
     var objectY = details.position.dy;
-
-    print(trashKey.globalPaintBounds);
-    print(details.position);
-    print("${trashX} - ${trashY}");
-    print("${objectX} - ${objectY}");
-    print("================>>");
 
     if ((item.type == ItemType.text || item.type == ItemType.gif) &&
             (objectX > (trashX - 55) && objectX < (trashX + 55)) &&
