@@ -34,7 +34,7 @@ class ColorDetection {
     double py = localPosition.dy;
 
     // int pixel32 = photo!.getPixelIndex(px.toInt(), py.toInt());
-    int pixel32 = photo!.getPixel(px.toInt(), py.toInt());
+    int pixel32 = photo!.getPixelSafe(px.toInt(), py.toInt());
 
     int hex = abgrToArgb(pixel32);
 

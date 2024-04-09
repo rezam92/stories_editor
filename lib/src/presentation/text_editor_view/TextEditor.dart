@@ -47,6 +47,7 @@ class _TextEditorState extends State<TextEditor> {
           builder: (_, controlNotifier, editorNotifier, __) {
             return Scaffold(
               backgroundColor: Colors.transparent,
+              resizeToAvoidBottomInset: false,
               body: GestureDetector(
                 /// onTap => Close view and create/modify item object
                 onTap: () => _onTap(context, controlNotifier, editorNotifier),
@@ -66,23 +67,25 @@ class _TextEditorState extends State<TextEditor> {
                         /// text size
                         const Align(
                           alignment: Alignment.centerLeft,
-                          child: SizeSliderWidget(),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                            child: SizeSliderWidget(),
+                          ),
                         ),
 
                         /// top tools
-                        SafeArea(
-                          child: Align(
-                              alignment: Alignment.topCenter,
-                              child: TopTextTools(
-                                isRtl: widget.isRtl,
-                                onDone: () => _onTap(
-                                    context, controlNotifier, editorNotifier),
-                              )),
-                        ),
+                        Align(
+                            alignment: Alignment.topCenter,
+                            child: TopTextTools(
+                              isRtl: widget.isRtl,
+                              onDone: () => _onTap(
+                                  context, controlNotifier, editorNotifier),
+                            )),
 
                         /// font family selector (bottom)
                         Positioned(
-                          bottom: screenUtil.screenHeight * 0.1,
+                          // bottom: screenUtil.screenHeight * 0.1,
+                          bottom: MediaQuery.of(context).viewInsets.bottom - 80,
                           child: Visibility(
                             visible: editorNotifier.isFontFamily &&
                                 !editorNotifier.isTextAnimation,

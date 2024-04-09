@@ -356,9 +356,7 @@ class _MainViewState extends State<MainView> {
                     ),
                   ],
                 ),
-                gallery: kIsWeb
-                    ? Container()
-                    : GalleryMediaPicker(
+                gallery: GalleryMediaPicker(
                         gridViewController: scrollProvider.gridController,
                         thumbnailQuality: widget.galleryThumbnailQuality,
                         singlePick: true,
