@@ -27,6 +27,7 @@ dependencies:
   modal_gif_picker:
     git:
       url: https://github.com/emiliodallatorre/modal_gif_picker
+      ref: main
   # painting
   perfect_freehand: ^1.0.4
   # positioning
