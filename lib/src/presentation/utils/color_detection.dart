@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -34,12 +35,10 @@ class ColorDetection {
     double py = localPosition.dy;
 
     // int pixel32 = photo!.getPixelIndex(px.toInt(), py.toInt());
-    int pixel32 = photo!.getPixelSafe(px.toInt(), py.toInt());
-
-    int hex = abgrToArgb(pixel32);
-
-    stateController!.add(Color(hex));
-    return Color(hex);
+    var pixel32 = photo!.getPixelSafe(px.toInt(), py.toInt());
+    final Color color = Color.fromARGB(pixel32.a.toInt(), pixel32.r.toInt(), pixel32.g.toInt(), pixel32.b.toInt());
+    stateController!.add(color);
+    return color;
   }
 
   Future<void> loadSnapshotBytes() async {
